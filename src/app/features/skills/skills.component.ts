@@ -1,7 +1,8 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SKILLS } from '../../core/data/portfolio.data';
 import { Skill } from '../../core/models/portfolio.models';
+import { LanguageService } from '../../core/services/language.service';
 
 type Category = 'all' | 'frontend' | 'backend' | 'database' | 'devops';
 
@@ -12,7 +13,7 @@ type Category = 'all' | 'frontend' | 'backend' | 'database' | 'devops';
   template: `
     <section id="skills" class="skills">
       <div class="container">
-        <h2 class="section-title" data-num="02.">Habilidades</h2>
+        <h2 class="section-title" data-num="04.">{{ lang.t().skills.title }}</h2>
 
         <div class="skills-categories animate-in" #animEl>
           @for (cat of categories; track cat.id) {
@@ -123,6 +124,8 @@ type Category = 'all' | 'frontend' | 'backend' | 'database' | 'devops';
   `]
 })
 export class SkillsComponent implements AfterViewInit {
+  readonly lang = inject(LanguageService);
+  
   @ViewChild('animEl')  animEl!:  ElementRef;
   @ViewChild('animEl2') animEl2!: ElementRef;
 

@@ -1,20 +1,21 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
+  imports: [CommonModule],
   template: `
     <section id="contact" class="contact-section">
       <div class="container">
         <div class="contact-content reveal" #animEl>
           <div class="contact-text text-center">
             <h2 class="section-title">
-              Trabajemos <span class="text-gradient">Juntos</span>
+              {{ lang.t().contact.title }} <span class="text-gradient">{{ lang.t().contact.titleSpan }}</span>
             </h2>
             <p class="section-subtitle mx-auto">
-              Actualmente estoy abierto a nuevas oportunidades. Si tienes una
-              pregunta, una propuesta, o simplemente quieres saludar, mi bandeja
-              de entrada siempre está abierta.
+              {{ lang.t().contact.text }}
             </p>
 
             <div class="social-links-lg">
@@ -105,6 +106,8 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
   `]
 })
 export class ContactComponent implements AfterViewInit {
+  readonly lang = inject(LanguageService);
+  
   @ViewChild('animEl') animEl!: ElementRef;
 
   ngAfterViewInit() {

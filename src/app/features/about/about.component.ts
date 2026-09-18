@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, QueryList, ViewChildren, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-about',
@@ -8,22 +9,14 @@ import { CommonModule } from '@angular/common';
   template: `
     <section id="about" class="about">
       <div class="container">
-        <h2 class="section-title" data-num="01.">Sobre mí</h2>
+        <h2 class="section-title" data-num="01.">{{ lang.t().about.title }}</h2>
 
         <div class="about-grid animate-in" #animEl>
           <!-- Text -->
           <div class="about-text">
-            <p>
-              Soy un ingeniero de software apasionado por la calidad técnica y la experiencia de usuario. Disfruto construyendo sistemas desde cero, asegurando que cada línea de código tenga un propósito claro y aporte valor real.
-            </p>
-
-            <p>
-              A lo largo de mi carrera profesional he tenido la oportunidad de digitalizar procesos críticos para el <strong>Gobierno del Estado de Sonora</strong> y desarrollar plataformas comerciales B2B y B2C, lo que me ha dado una visión integral del ciclo de vida del software.
-            </p>
-
-            <p>
-              Mi enfoque principal está en el ecosistema <strong>Angular</strong> para crear interfaces limpias e intuitivas, respaldadas por arquitecturas backend sólidas construidas con <strong>.NET (C#)</strong> y <strong>Spring Boot</strong>.
-            </p>
+            <p [innerHTML]="lang.t().about.p1"></p>
+            <p [innerHTML]="lang.t().about.p2"></p>
+            <p [innerHTML]="lang.t().about.p3"></p>
 
             <div class="about-highlights">
               <!-- Item 1 -->
@@ -33,7 +26,7 @@ import { CommonModule } from '@angular/common';
                 </span>
                 <div>
                   <strong>2+</strong>
-                  <span class="muted">Años de experiencia</span>
+                  <span class="muted">{{ lang.t().about.exp }}</span>
                 </div>
               </div>
               <!-- Item 2 -->
@@ -43,7 +36,7 @@ import { CommonModule } from '@angular/common';
                 </span>
                 <div>
                   <strong>4</strong>
-                  <span class="muted">Proyectos destacados</span>
+                  <span class="muted">{{ lang.t().about.proj }}</span>
                 </div>
               </div>
               <!-- Item 3 -->
@@ -53,7 +46,7 @@ import { CommonModule } from '@angular/common';
                 </span>
                 <div>
                   <strong>10+</strong>
-                  <span class="muted">Tecnologías dominadas</span>
+                  <span class="muted">{{ lang.t().about.tech }}</span>
                 </div>
               </div>
               <!-- Item 4 -->
@@ -63,7 +56,7 @@ import { CommonModule } from '@angular/common';
                 </span>
                 <div>
                   <strong>EGEL</strong>
-                  <span class="muted">Ceneval — Satisfactorio</span>
+                  <span class="muted">{{ lang.t().about.egel }}</span>
                 </div>
               </div>
             </div>
@@ -197,13 +190,17 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class AboutComponent implements AfterViewInit {
-  @ViewChildren('animEl') animEls!: QueryList<ElementRef>;
+  readonly lang = inject(LanguageService);
+
+  @ViewChild('animEl') animEl!: ElementRef;
 
   ngAfterViewInit() {
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.1 }
     );
-    this.animEls.forEach(el => obs.observe(el.nativeElement));
+    if (this.animEl) {
+      obs.observe(this.animEl.nativeElement);
+    }
   }
 }

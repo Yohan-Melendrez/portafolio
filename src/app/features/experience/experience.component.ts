@@ -1,6 +1,6 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewChildren, QueryList, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EXPERIENCES } from '../../core/data/portfolio.data';
+import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-experience',
@@ -9,43 +9,33 @@ import { EXPERIENCES } from '../../core/data/portfolio.data';
   template: `
     <section id="experience" class="experience">
       <div class="container">
-        <h2 class="section-title" data-num="03.">Experiencia</h2>
+        <h2 class="section-title" data-num="02.">{{ lang.t().experience.title }}</h2>
 
-        <div class="timeline animate-in" #animEl>
-          @for (exp of experiences; track exp.company; let i = $index) {
-            <div class="timeline-item" [class]="'type-' + exp.type">
-              <!-- Timeline dot -->
-              <div class="timeline-dot" [class]="'dot-' + exp.type" aria-hidden="true">
-                @if (exp.type === 'work') { 
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                }
-                @if (exp.type === 'education') { 
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-                }
-                @if (exp.type === 'certification') { 
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                }
+        <div class="timeline-container animate-in" #animEl>
+          <div class="timeline-line"></div>
+          
+          @for (exp of lang.t().data.experiences; track $index) {
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <ng-container [ngSwitch]="exp.type">
+                  <svg *ngSwitchCase="'education'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                  <svg *ngSwitchCase="'certification'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                  <svg *ngSwitchDefault width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                </ng-container>
               </div>
-
-              <!-- Card -->
-              <div class="timeline-card card">
+              
+              <div class="card timeline-card">
                 <div class="exp-header">
                   <div>
                     <h3 class="exp-role">{{ exp.role }}</h3>
-                    <p class="exp-company">
-                      @if (exp.type === 'work') {
-                        <span class="accent">&#64; {{ exp.company }}</span>
-                      } @else {
-                        <span class="accent">{{ exp.company }}</span>
-                      }
-                    </p>
+                    <div class="exp-company accent">{{ exp.company }}</div>
                   </div>
-                  <span class="exp-period mono">{{ exp.period }}</span>
+                  <div class="exp-period mono">{{ exp.period }}</div>
                 </div>
-
+                
                 <ul class="exp-desc">
-                  @for (line of exp.description; track line) {
-                    <li>{{ line }}</li>
+                  @for (desc of exp.description; track $index) {
+                    <li>{{ desc }}</li>
                   }
                 </ul>
               </div>
@@ -171,14 +161,24 @@ import { EXPERIENCES } from '../../core/data/portfolio.data';
   `]
 })
 export class ExperienceComponent implements AfterViewInit {
+  readonly lang = inject(LanguageService);
+  
   @ViewChild('animEl') animEl!: ElementRef;
-  experiences = EXPERIENCES;
 
   ngAfterViewInit() {
     const obs = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.05 }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
-    obs.observe(this.animEl.nativeElement);
+
+    if (this.animEl) {
+      obs.observe(this.animEl.nativeElement);
+    }
   }
 }

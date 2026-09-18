@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-hero',
@@ -11,21 +12,23 @@ import { CommonModule } from '@angular/common';
       <div class="hero-bg-grid" aria-hidden="true"></div>
 
       <div class="hero-content container">
-        <p class="hero-greeting mono animate-in visible" style="color: var(--color-muted);">Yohan Meléndrez</p>
+        <p class="hero-greeting mono animate-in visible" style="color: var(--color-muted);">{{ lang.t().hero.greeting }}</p>
 
         <h1 class="hero-name animate-in visible" style="transition-delay: 0.1s; margin-top: 10px;">
-          Software Engineer.
+          {{ lang.t().hero.role }}
         </h1>
 
         <h2 class="hero-subtitle animate-in visible" style="transition-delay: 0.2s; color: var(--color-muted); font-weight: 400; max-width: 600px; margin-top: 20px;">
-          Especializado en transformar problemas complejos en soluciones digitales simples, rápidas y escalables con Angular y .NET.
+          {{ lang.t().hero.subtitle }}
         </h2>
 
         <div class="hero-ctas animate-in visible" style="transition-delay: 0.4s; margin-top: 40px;">
           <a href="#projects" class="btn btn-primary">
-            Ver Proyectos
+            {{ lang.t().hero.btnProjects }}
           </a>
-          <a href="/assets/cv.pdf" target="_blank" download class="btn btn-ghost">Descargar CV</a>
+          <a [href]="lang.t().hero.cvLink" target="_blank" download class="btn btn-ghost">
+            {{ lang.t().hero.btnCV }}
+          </a>
         </div>
       </div>
 
@@ -156,6 +159,8 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class HeroComponent implements OnInit, OnDestroy {
+  readonly lang = inject(LanguageService);
+
   displayText = '';
   isTyping = true;
 
