@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+/* ── Premium Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --color-bg:        #000000;
+  --color-surface:   #0A0A0A;
+  --color-surface-hover: #111111;
+  --color-accent:    #EDEDED;
+  --color-accent-secondary: #888888;
+  --color-accent-dim: rgba(255, 255, 255, 0.05);
+  --color-text:      #EDEDED;
+  --color-muted:     #888888;
+  --color-border:    #333333;
+  --font-sans:       'Outfit', system-ui, sans-serif;
+  --font-mono:       'Fira Code', 'Courier New', monospace;
+  --transition:      all 0.3s ease;
+  --radius:          8px;
+  --radius-lg:       16px;
+  --shadow:          0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-glow:     0 0 0 transparent;
+  --max-width:       1100px;
+  --section-padding: 100px 0;
+}
+
+/* ── Reset & Base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(107, 33, 168, 0.08) 0%, transparent 70%);
+  background-attachment: fixed;
+  color: var(--color-text);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+p { color: var(--color-muted); }
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+section { padding: var(--section-padding); }
+
+/* ── Section Headings ──────────────────────────────────────────────────────── */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  margin-bottom: 60px;
+  white-space: nowrap;
+
+  &::before {
+    content: attr(data-num);
+    font-family: var(--font-mono);
+    font-size: clamp(16px, 2vw, 20px);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 500;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-border), transparent);
+  }
+}
+
+/* ── Minimalist Cards ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    border-color: #555555;
+    background: var(--color-surface-hover);
+  }
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  &-primary {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: 1px solid var(--color-text);
+    text-decoration: none;
+
+    &:hover {
+      background: transparent;
+      color: var(--color-text);
+      transform: translateY(-2px);
+    }
+  }
+
+  &-ghost {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(8px);
+    text-decoration: none;
+
+    &:hover {
+      border-color: var(--color-text);
+      background: var(--color-surface-hover);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* ── Tech Badges ────────────────────────────────────────────────────────────── */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-dim);
+  }
+}
+
+/* ── Accent Color ───────────────────────────────────────────────────────────── */
+.accent { color: var(--color-accent); }
+.muted  { color: var(--color-muted); }
+
+/* ── Animations ─────────────────────────────────────────────────────────────── */
+.animate-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; border: 2px solid var(--color-bg); }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Form Inputs ────────────────────────────────────────────────────────────── */
+input, textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text) !important;
+  border-radius: var(--radius) !important;
+  padding: 16px 20px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 15px !important;
+  transition: var(--transition) !important;
+
+  &:focus {
+    border-color: var(--color-accent) !important;
+    box-shadow: 0 0 0 4px var(--color-accent-dim) !important;
+    outline: none;
+  }
+}
