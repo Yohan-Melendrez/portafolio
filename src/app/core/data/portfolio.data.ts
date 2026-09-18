@@ -34,6 +34,7 @@ export const PROJECTS: Project[] = [
     description:
       'Sistema web mobile-first para gestión de inventario en múltiples bodegas. Generación automática de SKU y código de barras Code128, escáner por cámara y reportes. \n\n🔑 Demo: demo@inventarioerp.com / Demo1234',
     tech: ['Angular 18', 'ASP.NET Core', 'PostgreSQL', 'EF Core', 'JWT', 'PWA'],
+    demoUrl: 'https://inventarioerp.vercel.app/login?email=demo@inventarioerp.com&password=Demo1234',
     category: ['angular', 'dotnet'],
   },
 ];
